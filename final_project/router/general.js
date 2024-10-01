@@ -13,25 +13,58 @@ public_users.post("/register", (req,res) => {
 // Get the book list available in the shop
 public_users.get('/',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  return res.send(JSON.stringify({books}, null, 4));
 });
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  // Extract the isbn parameter from the request URL
+  const isbn = req.params.isbn;
+  res.send(books[isbn])
  });
   
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  // Extract the author parameter from the request URL
+  const targetValue = req.params.author;
+  let targetKey = null;
+
+  for (let key in books) {
+    if (books[key]["author"] === targetValue) {
+      targetKey = key;
+      break; // Stop the loop once the match is found
+    }
+  }
+
+  if (targetKey) {
+      res.send(books[targetKey])
+  } else {
+      res.send("No matching entry found.")
+  }
 });
 
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+  // Extract the title parameter from the request URL
+  const targetValue = req.params.title;
+  let targetKey = null;
+
+  for (let key in books) {
+  if (books[key]["title"] === targetValue) {
+  targetKey = key;
+  break; // Stop the loop once the match is found
+  }
+  }
+
+  if (targetKey) {
+  console.log("Matching entry:", books[targetKey]);
+  res.send(books[targetKey])
+  } else {
+  console.log("No matching entry found.");
+  res.send("No matching entry found.")
+  }
 });
 
 //  Get book review
